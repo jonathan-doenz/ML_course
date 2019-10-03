@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 """Function used to compute the loss."""
 
-def compute_loss(y, tx, w):
-    """Calculate the loss.
+def compute_error_vec(y, tx, w):
+    """Compute the error vector: y - Xw"""
+    return y - tx @ w
 
-    You can calculate the loss using mse or mae.
-    """
-    # ***************************************************
-    # INSERT YOUR CODE HERE
-    # TODO: compute loss by MSE / MAE
-    # ***************************************************
-    raise NotImplementedError
+def compute_loss(y, tx, w, method="MSE"):
+    """Calculate the loss using mean squared error (MSE)."""
+    N = len(y)
+    e = compute_error_vec(y, tx, w)
+    if method == "MSE":
+        loss = e.T @ e / N
+    elif method == "MAE":
+        loss = np.abs(e).T @ np.ones(N)
+    
+    return loss
